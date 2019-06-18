@@ -18,7 +18,7 @@ def multiple_1d_convolution():
 
     ############################################### Layer 0 ##########################################
 
-    kernel_size_1d_0 = 100#Adjust? (Doesn't affect next layer size)
+    kernel_size_1d_0 = 50#Adjust? (Doesn't affect next layer size)
     n_kernels_0 = 32#More features in next layer (32 as in AlexNet)
     stride_1d_0 = 4#Decreasing size of whole "perceptive field" of all neurons (4 as in AlexNet)
 
@@ -29,7 +29,7 @@ def multiple_1d_convolution():
     print(model.layers[-1].output_shape)
 
     ############################################### Layer 1 ##########################################
-    kernel_size_1d_1 = 100#Adjust? (Doesn't affect next layer size)
+    kernel_size_1d_1 = 50#Adjust? (Doesn't affect next layer size)
     n_kernels_1 = 96#More features in next layer
     stride_1d_1 = 2#Decreasing size of whole "perceptive field" of all neurons (2 as in AlexNet)
 
@@ -39,7 +39,7 @@ def multiple_1d_convolution():
 
     print(model.layers[-1].output_shape)
 
-    ############################################### Layer 2 ##########################################
+    """############################################### Layer 2 ##########################################
     kernel_size_1d_2 = 100#Adjust? (Doesn't affect next layer size)
     n_kernels_2 = 128#More features in next layer
     stride_1d_2 = 2#Decreasing size of whole "perceptive field" of all neurons
@@ -79,7 +79,7 @@ def multiple_1d_convolution():
     model.add(tf.layers.Dense(4096, activation=tf.keras.activations.relu))
     print(model.layers[-1].output_shape)
 
-    ############################################### Conv Layer 1##########################################
+    ############################################### Conv Layer 1##########################################"""
 
     model.add(tf.keras.layers.Flatten())
     model.add(tf.layers.Dense(2048, activation=tf.keras.activations.relu))
