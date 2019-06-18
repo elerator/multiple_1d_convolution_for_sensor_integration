@@ -176,6 +176,10 @@ def multiple_1d_convolution_v1():
     model.add(tf.layers.Dense(3, activation=tf.keras.activations.relu))
     print(model.layers[-1].output_shape)
 
+    model.compile(loss='categorical_crossentropy',
+              optimizer=tf.keras.optimizers.Adadelta(lr=0.1),
+              metrics=['accuracy'])
+
     return model
 
 
