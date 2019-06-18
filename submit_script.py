@@ -16,7 +16,7 @@ def get_files(path, name_contains):
     return files
 
 
-def submit_script(scriptpath, args, mem = "100G", cuda_cores = 0,jobname = "job"):
+def submit_script(scriptpath, args, mem = "5G", cuda_cores = 0,jobname = "job"):
     args_string = ""
     for a in args:
         args_string += a

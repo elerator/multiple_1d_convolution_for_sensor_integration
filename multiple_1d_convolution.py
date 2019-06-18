@@ -6,21 +6,18 @@ import struct
 
 from CAR import *
 
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'#Suppress some useless warnings related to CPU support of Tensorflow Installation. Do I run on GPU?
 
 def multiple_1d_convolution():
-    tf.reset_default_graph()
-
     tf.reset_default_graph()
 
     model = tf.keras.models.Sequential()
 
     ############################################### Layer 0 ##########################################
 
-    kernel_size_1d_0 = 100#Adjust? (Doesn't affect next layer size)
+    kernel_size_1d_0 = 500#Adjust? (Doesn't affect next layer size)
     n_kernels_0 = 32#More features in next layer (32 as in AlexNet)
-    stride_1d_0 = 4#Decreasing size of whole "perceptive field" of all neurons (4 as in AlexNet)
+    stride_1d_0 = 1000#Decreasing size of whole "perceptive field" of all neurons (4 as in AlexNet)
 
     model.add(tf.keras.layers.Conv2D(n_kernels_0, (kernel_size_1d_0, 1), input_shape=(20000,10, 1),
                                      padding = "SAME", strides=[stride_1d_0,1],
@@ -31,7 +28,7 @@ def multiple_1d_convolution():
     ############################################### Layer 1 ##########################################
     kernel_size_1d_1 = 100#Adjust? (Doesn't affect next layer size)
     n_kernels_1 = 96#More features in next layer
-    stride_1d_1 = 2#Decreasing size of whole "perceptive field" of all neurons (2 as in AlexNet)
+    stride_1d_1 = 100#Decreasing size of whole "perceptive field" of all neurons (2 as in AlexNet)
 
     model.add(tf.keras.layers.Conv2D(n_kernels_1, (kernel_size_1d_1, 1),
                                      padding = "SAME", strides=[stride_1d_1,1],
@@ -40,7 +37,7 @@ def multiple_1d_convolution():
     print(model.layers[-1].output_shape)
 
     ############################################### Layer 2 ##########################################
-    kernel_size_1d_2 = 100#Adjust? (Doesn't affect next layer size)
+    kernel_size_1d_2 = 10#Adjust? (Doesn't affect next layer size)
     n_kernels_2 = 128#More features in next layer
     stride_1d_2 = 2#Decreasing size of whole "perceptive field" of all neurons
 
@@ -52,7 +49,7 @@ def multiple_1d_convolution():
 
 
     ############################################### Layer 3 ##########################################
-    kernel_size_1d_3 = 100#Adjust? (Doesn't affect next layer size)
+    kernel_size_1d_3 = 10#Adjust? (Doesn't affect next layer size)
     n_kernels_3 = 256#More features in next layer
     stride_1d_3 = 3#Decreasing size of whole "perceptive field" of all neurons
 
@@ -62,7 +59,7 @@ def multiple_1d_convolution():
 
     print(model.layers[-1].output_shape)
 
-    ############################################### Layer 4 ##########################################
+    """############################################### Layer 4 ##########################################
     kernel_size_1d_4 = 100#Adjust? (Doesn't affect next layer size)
     n_kernels_4 = 256#More features in next layer
     stride_1d_4 = 1#Decreasing size of whole "perceptive field" of all neurons
@@ -85,7 +82,7 @@ def multiple_1d_convolution():
     model.add(tf.layers.Dense(2048, activation=tf.keras.activations.relu))
     print(model.layers[-1].output_shape)
 
-    ############################################### Conv Layer 2##########################################
+    ############################################### Conv Layer 2##########################################"""
 
     model.add(tf.keras.layers.Flatten())
     model.add(tf.layers.Dense(3, activation=tf.keras.activations.relu))
@@ -117,8 +114,8 @@ def train(model,epochs = 1, batch_size=10):
             prelim_acc += stat.history["acc"][0]
 
             #Output progress here:
-            if (step % 100)==0:
-                print(prelim_acc/100)
+            if (step % 10)==0:
+                print(prelim_acc/10)
                 prelim_acc = 0
 
             step+=1

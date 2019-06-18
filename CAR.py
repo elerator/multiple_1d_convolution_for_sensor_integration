@@ -4,7 +4,7 @@ import re
 import numpy as np
 
 class CAR:
-    def __init__(self, path,batch_size=10, train_test_split=0.8):
+    def __init__(self, path="/net/projects/scratch/summer/valid_until_31_January_2020/ann4auto/Combined_Chunks/Acc_Vel/1.0s_duration/0.0s_overlap",batch_size=10, train_test_split=0.8):
         self.batch_size = batch_size
         self.train_test_split = train_test_split
 
@@ -33,7 +33,11 @@ class CAR:
 
         np.random.shuffle(files)
         self.training =files[:int(self.train_test_split*len(files))]
+        self.last_training_batch = int(len(self.training) //self.batch_size) -1
         self.validation = files[int(self.train_test_split*len(files)):]
+        self.last_validation_batch = int(len(self.validation) //self.batch_size)-1
+        print("Self training length")
+        print(len(self.training))
 
     def get_training_batches(self):
         self.return_validation = False
@@ -52,9 +56,10 @@ class CAR:
 
     def __next__(self):
         if self.return_training:
-            if(self.current_training_batch*self.batch_size >= len(self.training)):
-                return
             self.current_training_batch += 1
+
+            if(self.current_training_batch > self.last_training_batch):
+                raise StopIteration()
 
             source_vals = []
             target_vals = []
@@ -64,10 +69,10 @@ class CAR:
             return {"source":np.array(source_vals),"target":np.array(target_vals)}
 
         if self.return_validation:
-            if(self.current_validation_batch *self.batch_size >= len(self.training)):
-                return
             self.current_validation_batch += 1
-            
+            if(self.current_validation_batch > self.last_validation_batch):
+                raise StopIteration()
+                     
             source_vals = []
             target_vals = []
             for x in range(self.batch_size):
