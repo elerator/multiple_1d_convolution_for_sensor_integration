@@ -95,6 +95,91 @@ def multiple_1d_convolution():
 
     return model
 
+def multiple_1d_convolution_v1():
+    print("USING MODEL V1")
+    tf.reset_default_graph()
+
+    model = tf.keras.models.Sequential()
+
+    ############################################### Layer 0 ##########################################
+
+    kernel_size_1d_0 = 50#Adjust? (Doesn't affect next layer size)
+    n_kernels_0 = 16#More features in next layer (32 as in AlexNet)
+    stride_1d_0 = 25#Decreasing size of whole "perceptive field" of all neurons (4 as in AlexNet)
+
+    model.add(tf.keras.layers.Conv2D(n_kernels_0, (kernel_size_1d_0, 1), input_shape=(20000,10, 1),
+                                     padding = "SAME", strides=[stride_1d_0,1],
+                                     activation = tf.keras.activations.relu))
+    #We have 128 versions of kernels for each of the 20.000 positions for each sensor seperately. Hence the shape:
+    print(model.layers[-1].output_shape)
+
+    ############################################### Layer 1 ##########################################
+    kernel_size_1d_1 = 20#Adjust? (Doesn't affect next layer size)
+    n_kernels_1 = 32#More features in next layer
+    stride_1d_1 = 5#Decreasing size of whole "perceptive field" of all neurons (2 as in AlexNet)
+
+    model.add(tf.keras.layers.Conv2D(n_kernels_1, (kernel_size_1d_1, 1),
+                                     padding = "SAME", strides=[stride_1d_1,1],
+                                     activation = tf.keras.activations.relu))
+
+    print(model.layers[-1].output_shape)
+
+    ############################################### Layer 2 ##########################################
+    kernel_size_1d_2 = 100#Adjust? (Doesn't affect next layer size)
+    n_kernels_2 = 64#More features in next layer
+    stride_1d_2 = 2#Decreasing size of whole "perceptive field" of all neurons
+
+    model.add(tf.keras.layers.Conv2D(n_kernels_2, (kernel_size_1d_2, 1),
+                                     padding = "SAME", strides=[stride_1d_2,1],
+                                     activation = tf.keras.activations.relu))
+
+    print(model.layers[-1].output_shape)
+
+
+    ############################################### Layer 3 ##########################################
+    kernel_size_1d_3 = 100#Adjust? (Doesn't affect next layer size)
+    n_kernels_3 = 256#More features in next layer
+    stride_1d_3 = 3#Decreasing size of whole "perceptive field" of all neurons
+
+    model.add(tf.keras.layers.Conv2D(n_kernels_3, (kernel_size_1d_3, 1),
+                                     padding = "SAME", strides=[stride_1d_3,1],
+                                     activation = tf.keras.activations.relu))
+
+    print(model.layers[-1].output_shape)
+
+    ############################################### Layer 4 ##########################################
+    kernel_size_1d_4 = 100#Adjust? (Doesn't affect next layer size)
+    n_kernels_4 = 256#More features in next layer
+    stride_1d_4 = 1#Decreasing size of whole "perceptive field" of all neurons
+
+    model.add(tf.keras.layers.Conv2D(n_kernels_4, (kernel_size_1d_3, 1),
+                                     padding = "SAME", strides=[stride_1d_3,1],
+                                     activation = tf.keras.activations.relu))
+
+    print(model.layers[-1].output_shape)
+
+    ############################################### Conv Layer 0##########################################
+
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.layers.Dense(4096, activation=tf.keras.activations.relu))
+    print(model.layers[-1].output_shape)
+
+    ############################################### Conv Layer 1##########################################
+
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.layers.Dense(2048, activation=tf.keras.activations.relu))
+    print(model.layers[-1].output_shape)
+
+    ############################################### Conv Layer 2##########################################
+
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.layers.Dense(3, activation=tf.keras.activations.relu))
+    print(model.layers[-1].output_shape)
+
+    return model
+
+
+
 
 def train(model,epochs = 1, batch_size=10):
     car = CAR("/net/projects/scratch/summer/valid_until_31_January_2020/ann4auto/Combined_Chunks/Acc_Vel/1.0s_duration/0.0s_overlap")
@@ -125,5 +210,5 @@ def train(model,epochs = 1, batch_size=10):
 
 
 if __name__ == "__main__":
-    model = multiple_1d_convolution()
+    model = multiple_1d_convolution_v1()
     train(model)
